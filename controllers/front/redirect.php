@@ -12,16 +12,21 @@ class MercuryCashRedirectModuleFrontController extends ModuleFrontController
          */
         if (Tools::getValue('action') == 'error') {
             return $this->displayError('An error occurred while trying to redirect the customer');
-        } else {
-            $this->context->smarty->assign(array(
-                'cart_id' => Context::getContext()->cart->id,
-                'secure_key' => Context::getContext()->customer->secure_key,
-            ));
-
-            return $this->setTemplate('redirect.tpl');
         }
+        $this->context->smarty->assign(array(
+            'cart_id'    => Context::getContext()->cart->id,
+            'secure_key' => Context::getContext()->customer->secure_key,
+        ));
+
+        return $this->setTemplate('redirect.tpl');
     }
 
+    /**
+     * @param      $message
+     * @param bool $description
+     *
+     * @return mixed
+     */
     protected function displayError($message, $description = false)
     {
         /*
