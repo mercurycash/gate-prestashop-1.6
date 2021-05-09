@@ -47,10 +47,9 @@ class MercuryCashValidationModuleFrontController extends ModuleFrontController
         $crypto_type = Tools::getValue('crypto');
         $secure_key  = $context->customer->secure_key;
         $this->context->cookie->__set('secure_key', $secure_key);
-        $available_crypto_types = ['BTC', 'ETH', 'DASH'];
 
         //check crypto type
-        if (!in_array($crypto_type, $available_crypto_types)) {
+        if (!in_array($crypto_type, $this->available_types)) {
             die(Tools::jsonEncode(['data' => ['result'=> false, 'error' => 'Wrong crypto currency type.']]));
         }
 

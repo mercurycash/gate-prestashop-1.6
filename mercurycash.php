@@ -1,28 +1,4 @@
 <?php
-/**
-* 2007-2020 PrestaShop
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Academic Free License (AFL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/afl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
-* versions in the future. If you wish to customize PrestaShop for your
-* needs please refer to http://www.prestashop.com for more information.
-*
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2020 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
-*/
 
 require_once('vendor/autoload.php');
 
@@ -38,6 +14,9 @@ class MercuryCash extends PaymentModule
     protected $config_form = false;
 
 
+    /**
+     * MercuryCash constructor.
+     */
     public function __construct()
     {
         $this->name = 'mercurycash';
@@ -487,7 +466,7 @@ class MercuryCash extends PaymentModule
         if (!$this->active)
             return;
 
-        $state = $params['objOrder']->getCurrentState();
+        $params['objOrder']->getCurrentState();
 
         $this->smarty->assign(array(
             'total_to_pay' => Tools::displayPrice($params['total_to_pay'], $params['currencyObj'], false),
@@ -500,6 +479,9 @@ class MercuryCash extends PaymentModule
         return $this->display(__FILE__, 'payment_return.tpl');
     }
 
+    /**
+     * @return mixed
+     */
     protected function generateForm()
     {
         $process_url = $this->context->link->getModuleLink($this->name, 'validation', array('ajax' => true));
@@ -521,6 +503,11 @@ class MercuryCash extends PaymentModule
         return $this->display('module:mercurycash/views/templates/front/payment_form.tpl');
     }
 
+    /**
+     * @param $cart
+     *
+     * @return bool
+     */
     public function checkCurrency($cart)
     {
         $currency_order = new Currency($cart->id_currency);

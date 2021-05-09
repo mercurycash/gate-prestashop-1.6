@@ -16,7 +16,7 @@ $(document).ready(function () {
                 url: getSettingsUrl,
                 type: "post",
                 dataType: "json",
-                success: function(data) {
+                success(data) {
                     var price       = data.price;
                     var currency    = data.currency;
                     var minimumBtc  = data.minimum_btc;
@@ -65,7 +65,7 @@ $(document).ready(function () {
                                         msg = "Requested page not found. [404]";
                                     } else if (jqXHR.status === 500) {
                                         msg = "Internal Server Error [500].";
-                                    } else if (exception === 'parsererror') {
+                                    } else if (exception === "parsererror") {
                                         msg = "Requested JSON parse failed.";
                                     } else if (exception === "timeout") {
                                         msg = "Time out error.";
