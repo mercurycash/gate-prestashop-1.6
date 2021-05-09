@@ -1,105 +1,105 @@
 $(document).ready(function () {
 
-    $(":submit").on('click', function(e) {
-        var id = $(this).closest("form").attr('id');
-        if (id === 'mercury-payment-form') {
+    $(":submit").on("click", function(e) {
+        var id = $(this).closest("form").attr("id");
+        if (id === "mercury-payment-form") {
             e.preventDefault();
-            $('body').prepend('<div id="mercury-cash"></div>');
-            var url              = $('input[name="url"]').val();
-            var status_url       = $('input[name="status_url"]').val();
-            var get_settings_url = $('input[name="get_settings_url"]').val();
-            var success_url      = $('input[name="success_url"]').val();
-            var refresh_period   = $('input[name="refresh_period"]').val() * 1000;
+            $("body").prepend('<div id="mercury-cash"></div>');
+            var url            = $("input[name='url']").val();
+            var statusUrl      = $("input[name='status_url']").val();
+            var getSettingsUrl = $("input[name='get_settings_url']").val();
+            var successUrl     = $("input[name='success_url']").val();
+            var refreshPeriod  = $("input[name='refresh_period']").val() * 1000;
 
             $.ajax({
                 ajax: 1,
-                url: get_settings_url,
-                type: 'post',
-                dataType: 'json',
+                url: getSettingsUrl,
+                type: "post",
+                dataType: "json",
                 success: function(data) {
-                    var price        = data.price;
-                    var currency     = data.currency;
-                    var minimum_btc  = data.minimum_btc;
-                    var minimum_eth  = data.minimum_eth;
-                    var minimum_dash = data.minimum_dash;
-                    var email        = data.email;
+                    var price       = data.price;
+                    var currency    = data.currency;
+                    var minimumBtc  = data.minimum_btc;
+                    var minimumEth  = data.minimum_eth;
+                    var minimumDash = data.minimum_dash;
+                    var email       = data.email;
 
                     var sdk = new MercurySDK({
                         checkoutUrl: url,
-                        statusUrl: status_url,
-                        checkStatusInterval: refresh_period,
-                        mount: '#mercury-cash',
-                        lang: 'en',
+                        statusUrl: statusUrl,
+                        checkStatusInterval: refreshPeriod,
+                        mount: "#mercury-cash",
+                        lang: "en",
                         limits: {
-                            BTC:  minimum_btc,
-                            ETH:  minimum_eth,
-                            DASH: minimum_dash
+                            BTC:  minimumBtc,
+                            ETH:  minimumEth,
+                            DASH: minimumDash
                         }
                     });
                     sdk.checkout(price, currency, email);
-                    sdk.on('close', (obj) => {
-                        if(obj.status && obj.status === 'TRANSACTION_APROVED') {
-                            $('body').addClass('loading');
+                    sdk.on("close", (obj) => {
+                        if(obj.status && obj.status === "TRANSACTION_APROVED") {
+                            $("body").addClass("loading");
                             $.ajax({
                                 ajax: 1,
-                                url: success_url,
-                                type: 'post',
-                                dataType: 'json',
-                                success: function(data) {
-                                    $('body').removeClass('loading');
+                                url: successUrl,
+                                type: "post",
+                                dataType: "json",
+                                success(data) {
+                                    $("body").removeClass("loading");
                                     if (data.result == true) {
                                         var url = data.url;
                                         window.location.href = url;
                                     } else {
-                                        $('#mercury-cash').remove();
-                                        $('#errorModalLabel').html(data.error);
-                                        $('#errorModal').modal('toggle');
+                                        $("#mercury-cash").remove();
+                                        $("#errorModalLabel").html(data.error);
+                                        $("#errorModal").modal("toggle");
                                     }
                                 },
-                                error: function (jqXHR, exception) {
-                                    $('body').removeClass('loading');
-                                    var msg = '';
+                                error(jqXHR, exception) {
+                                    $("body").removeClass("loading");
+                                    var msg = "";
                                     if (jqXHR.status === 0) {
-                                        msg = 'Not connect.\n Verify Network.';
-                                    } else if (jqXHR.status == 404) {
-                                        msg = 'Requested page not found. [404]';
-                                    } else if (jqXHR.status == 500) {
-                                        msg = 'Internal Server Error [500].';
+                                        msg = "Not connect.\n Verify Network.";
+                                    } else if (jqXHR.status === 404) {
+                                        msg = "Requested page not found. [404]";
+                                    } else if (jqXHR.status === 500) {
+                                        msg = "Internal Server Error [500].";
                                     } else if (exception === 'parsererror') {
-                                        msg = 'Requested JSON parse failed.';
-                                    } else if (exception === 'timeout') {
-                                        msg = 'Time out error.';
-                                    } else if (exception === 'abort') {
-                                        msg = 'Ajax request aborted.';
+                                        msg = "Requested JSON parse failed.";
+                                    } else if (exception === "timeout") {
+                                        msg = "Time out error.";
+                                    } else if (exception === "abort") {
+                                        msg = "Ajax request aborted.";
                                     } else {
-                                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                                        msg = "Uncaught Error.\n" + jqXHR.responseText;
                                     }
-                                    $('#errorModalLabel').html(msg);
-                                    $('#errorModal').modal('toggle');
+                                    $("#errorModalLabel").html(msg);
+                                    $("#errorModal").modal("toggle");
                                 }
                             });
                         }
                     });
                 },
-                error: function (jqXHR, exception) {
-                    var msg = '';
+                error(jqXHR, exception) {
+                    var msg = "";
                     if (jqXHR.status === 0) {
-                        msg = 'Not connect.\n Verify Network.';
-                    } else if (jqXHR.status == 404) {
-                        msg = 'Requested page not found. [404]';
-                    } else if (jqXHR.status == 500) {
-                        msg = 'Internal Server Error [500].';
-                    } else if (exception === 'parsererror') {
-                        msg = 'Requested JSON parse failed.';
-                    } else if (exception === 'timeout') {
-                        msg = 'Time out error.';
-                    } else if (exception === 'abort') {
-                        msg = 'Ajax request aborted.';
+                        msg = "Not connect.\n Verify Network.";
+                    } else if (jqXHR.status === 404) {
+                        msg = "Requested page not found. [404]";
+                    } else if (jqXHR.status === 500) {
+                        msg = "Internal Server Error [500].";
+                    } else if (exception === "parsererror") {
+                        msg = "Requested JSON parse failed.";
+                    } else if (exception === "timeout") {
+                        msg = "Time out error.";
+                    } else if (exception === "abort") {
+                        msg = "Ajax request aborted.";
                     } else {
-                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                        msg = "Uncaught Error.\n" + jqXHR.responseText;
                     }
-                    $('#errorModalLabel').html(msg);
-                    $('#errorModal').modal('toggle');
+                    $("#errorModalLabel").html(msg);
+                    $("#errorModal").modal("toggle");
                 }
             });
             return false;
