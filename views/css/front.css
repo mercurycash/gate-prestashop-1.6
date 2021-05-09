@@ -1,6 +1,6 @@
 #MercuryCash_payment_button a {
   padding: 10px;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
 }
 
 #MercuryCash_payment_button a:hover {
@@ -14,11 +14,11 @@
   right: 15px;
   margin-top: -11px;
   top: 50%;
-  font-family: "FontAwesome";
+  font-family: "FontAwesome", serif;
   font-size: 25px;
   height: 22px;
   width: 14px;
-  color: #777777;
+  color: #777;
 }
 
 .loader-modal {
@@ -29,7 +29,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(255, 255, 255, .8) url('../img/loader1.gif') 50% 50% no-repeat;
+  background: rgba(255, 255, 255, 0.8) url('../img/loader1.gif') 50% 50% no-repeat;
 }
 
 .loader-qr {
@@ -40,30 +40,24 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(255, 255, 255, .8) 50% 50% no-repeat;
+  background: rgba(255, 255, 255, 0.8) 50% 50% no-repeat;
 }
 
 /* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-body.loading .loader-modal {
-  overflow: hidden;
-}
-
-/* Anytime the body has the loading class, our
+   the scrollbar off with overflow:hidden
+   Anytime the body has the loading class, our
    modal element will be visible */
 body.loading .loader-modal {
+  overflow: hidden;
   display: block;
 }
 
 /* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-body.loading-qr .loader-qr {
-  overflow: hidden;
-}
-
-/* Anytime the body has the loading class, our
+   the scrollbar off with overflow:hidden
+   Anytime the body has the loading class, our
    modal element will be visible */
 body.loading-qr .loader-qr {
+  overflow: hidden;
   display: block;
 }
 
@@ -104,7 +98,7 @@ body.loading-qr .loader-qr {
   border-radius: 50%;
   border: 2px solid #7a7a7a;
   background: #fff;
-  margin-right: 1.25rem
+  margin-right: 1.25rem;
 }
 
 .close-modal {
