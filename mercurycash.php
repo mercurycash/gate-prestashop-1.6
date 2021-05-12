@@ -629,12 +629,11 @@ class MercuryCash extends PaymentModule
             $endpoint->status('');
             $this->context->controller->errors = [];
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            if (strpos($e->getMessage(), '[status code] 424') === false) {
-                $this->context->controller->confirmations[] = 'Mercury credentials for Sandbox were verified';
-            } else {
+            if (strpos($e->getMessage(), '[status code] 424') !== false) {
                 $this->context->controller->errors[] = 'Wrong Mercury credentials for Sandbox';
                 return false;
             }
+            $this->context->controller->confirmations[] = 'Mercury credentials for Sandbox were verified';
         } catch (\GuzzleHttp\Exception\ServerException $e) {
             $response = $e->getResponse();
             if ($response->getStatusCode() == 500) {
