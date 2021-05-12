@@ -67,8 +67,6 @@ $(document).ready(function () {
                                         msg = "Time out error.";
                                     } else if (exception === "abort") {
                                         msg = "Ajax request aborted.";
-                                    } else {
-                                        msg = "Uncaught Error.\n" + jqXHR.responseText;
                                     }
                                     $("#errorModalLabel").html(msg);
                                     $("#errorModal").modal("toggle");
@@ -87,8 +85,6 @@ $(document).ready(function () {
                         msg = "Time out error.";
                     } else if (exception === "abort") {
                         msg = "Ajax request aborted.";
-                    } else {
-                        msg = "Uncaught Error.\n" + jqXHR.responseText;
                     }
                     $("#errorModalLabel").html(msg);
                     $("#errorModal").modal("toggle");

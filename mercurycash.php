@@ -585,12 +585,11 @@ class MercuryCash extends PaymentModule
             $endpoint->status('test');
             $this->context->controller->confirmations[] = 'Mercury credentials were verified';
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            if (strpos($e->getMessage(), '[status code] 424') === false) {
-                $this->context->controller->confirmations[] = 'Mercury credentials were verified';
-            } else {
+            if (strpos($e->getMessage(), '[status code] 424') !== false) {
                 $this->context->controller->errors[] = 'Wrong Mercury credentials';
                 return false;
             }
+            $this->context->controller->confirmations[] = 'Mercury credentials were verified';
         } catch (\GuzzleHttp\Exception\ServerException $e) {
             $response = $e->getResponse();
             if ($response->getStatusCode() == 500) {

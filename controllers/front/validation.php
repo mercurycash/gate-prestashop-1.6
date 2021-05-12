@@ -92,14 +92,14 @@ class MercuryCashValidationModuleFrontController extends ModuleFrontController
         $crypto_amount = $transaction->getCryptoAmount();
         $type = $this->getType($crypto_type);
         //get qr-code address
-        $qr = "$type:$address?amount=$crypto_amount&cryptoCurrency=$crypto_type";
+        $qr_code = "$type:$address?amount=$crypto_amount&cryptoCurrency=$crypto_type";
 
         die(Tools::jsonEncode([
             'data' => [
                 'cryptoAmount' => $crypto_amount,
                 'confirmations' => 5,
                 'address' => $address,
-                'qrCodeText' => $qr,
+                'qrCodeText' => $qr_code,
                 'exchangeRate' => $transaction->getRate(),
                 'networkFee' => $transaction->getFee(),
                 'uuid' => $uuid,
@@ -188,7 +188,7 @@ class MercuryCashValidationModuleFrontController extends ModuleFrontController
      * @param $currency_iso
      * @param $amount
      *
-     * @return bool
+     * @return mixed
      */
     private function getTransaction($endpoint, $crypto_type, $currency_iso, $amount)
     {
@@ -214,7 +214,7 @@ class MercuryCashValidationModuleFrontController extends ModuleFrontController
      * @param $endpoint
      * @param $uuid
      *
-     * @return bool
+     * @return mixed
      */
     private function getCheckout($endpoint, $uuid)
     {
@@ -235,7 +235,7 @@ class MercuryCashValidationModuleFrontController extends ModuleFrontController
      * @param $endpoint
      * @param $uuid
      *
-     * @return bool
+     * @return mixed
      */
     private function getStatus($endpoint, $uuid)
     {
