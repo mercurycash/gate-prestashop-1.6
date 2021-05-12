@@ -44,7 +44,7 @@ class MercuryCash extends PaymentModule
     public function install()
     {
 
-        include(dirname(__FILE__).'/sql/install.php');
+        include(__DIR__ . '/sql/install.php');
 
         Configuration::updateValue('MERCURYCASH_STATUS_PERIOD', 5);
         Configuration::updateValue('MERCURYCASH_BITCOIN_MIN', 40);
@@ -66,7 +66,7 @@ class MercuryCash extends PaymentModule
      */
     public function uninstall()
     {
-        include(dirname(__FILE__).'/sql/uninstall.php');
+        include(__DIR__ . '/sql/uninstall.php');
 
         return parent::uninstall();
     }
@@ -260,16 +260,7 @@ class MercuryCash extends PaymentModule
             $this->context->controller->errors[] = 'Wrong Period value';
         }
 
-        foreach (array_keys($form_values) as $key) {
-            $value = Tools::getValue($key);
-            if ($credentials_error && ($key == 'MERCURYCASH_PUBLIC_KEY' || $key == 'MERCURYCASH_PRIVATE_KEY')) {
-                $value = null;
-            }
-            if ($sandbox_credentials_error && ($key == 'MERCURYCASH_PUBLIC_KEY_SANDBOX' || $key == 'MERCURYCASH_PRIVATE_KEY_SANDBOX')) {
-                $value = null;
-            }
-            Configuration::updateValue($key, $value);
-        }
+        $this->updateConfiguration($form_values, $credentials_error, $sandbox_credentials_error, $period_error);
     }
 
     /**
@@ -551,6 +542,29 @@ class MercuryCash extends PaymentModule
         } catch (Exception $e) {
         }
         return [];
+    }
+
+    /**
+     * @param $form_values
+     * @param $credentials_error
+     * @param $sandbox_credentials_error
+     * @param $period_error
+     */
+    private function updateConfiguration($form_values, $credentials_error, $sandbox_credentials_error, $period_error)
+    {
+        foreach (array_keys($form_values) as $key) {
+            $value = Tools::getValue($key);
+            if ($credentials_error && ($key === 'MERCURYCASH_PUBLIC_KEY' || $key === 'MERCURYCASH_PRIVATE_KEY')) {
+                $value = null;
+            }
+            if ($sandbox_credentials_error && ($key === 'MERCURYCASH_PUBLIC_KEY_SANDBOX' || $key === 'MERCURYCASH_PRIVATE_KEY_SANDBOX')) {
+                $value = null;
+            }
+            if ($period_error && $key === 'MERCURYCASH_STATUS_PERIOD') {
+                $value = 5;
+            }
+            Configuration::updateValue($key, $value);
+        }
     }
 
     /**
