@@ -13,7 +13,7 @@
     <p class="warning">{l s='Your shopping cart is empty.' mod='bankwire'}</p>
 {else}
 
-    <h3>{l s='Mercury payment' mod='MercuryCash'}</h3>
+    <h3>{l s='Mercury payment' mod='mercurycash'}</h3>
 
     <form action="{$action}" id="mercury-payment-form">
         <input type="hidden" name="refresh_period" value="{$refresh_period}">
@@ -22,8 +22,8 @@
         <input type="hidden" name="get_settings_url" value="{$get_settings_url}">
         <input type="hidden" name="success_url" value="{$success_url}">
         <p class="cart_navigation" id="cart_navigation">
-            <input type="submit" value="{l s='I confirm my order' mod='MercuryCash'}" class="exclusive_large" />
-            <a href="{$link->getPageLink('order', true, NULL, "step=3")|escape:'html'}" class="button_large">{l s='Other payment methods' mod='MercuryCash'}</a>
+            <input type="submit" value="{l s='I confirm my order' mod='mercurycash'}" class="exclusive_large" />
+            <a href="{$link->getPageLink('order', true, NULL, "step=3")|escape:'html'}" class="button_large">{l s='Other payment methods' mod='mercurycash'}</a>
         </p>
     </form>
     <div class="loader-modal"></div>
