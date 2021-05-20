@@ -18,6 +18,7 @@
     <form action="{$action}" id="mercury-payment-form">
         <input type="hidden" name="refresh_period" value="{$refresh_period}">
         <input type="hidden" name="url" value="{$url}">
+        <input type="hidden" name="static_url" value="{$modules_dir}">
         <input type="hidden" name="status_url" value="{$status_url}">
         <input type="hidden" name="get_settings_url" value="{$get_settings_url}">
         <input type="hidden" name="success_url" value="{$success_url}">
